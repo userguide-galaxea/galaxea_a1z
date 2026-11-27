@@ -38,6 +38,10 @@ gs_usb = [
 pcan = [
     "python-can[pcan]",
 ]
+# CSS Electronics CANsub adapter (USB or Ethernet)
+cansub = [
+    "python-can-cansub; python_version >= '3.12'",
+]
 
 [project.urls]
 Repository = "https://github.com/userguide-galaxea/GALAXEA-A1Z"

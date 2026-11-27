@@ -55,6 +55,7 @@ Repository: [github.com/userguide-galaxea/GALAXEA-A1Z](https://github.com/usergu
 | macOS | `gs_usb` | Galaxea USB2CANFD adapter | Userspace USB backend; the current version has passed 250 Hz hardware control validation |
 | Windows | `gs_usb` | Galaxea USB2CANFD adapter + libusb-compatible driver | Try the existing driver first; use Zadig/WinUSB only if the device cannot be opened |
 | macOS / Windows | `pcan` | PEAK PCAN-USB + vendor runtime | Select explicitly with `--bustype pcan` |
+| macOS / Windows / Linux | `cansub` | CSS Electronics CANsub (USB or Ethernet) | Select explicitly with `--bustype cansub` |
 
 ### Validation Levels
 
@@ -173,7 +174,7 @@ with_gripper: false
 |---|---|
 | `gripper_max_torque` | Maximum G1Z gripping torque in N·m. |
 | `urdf_path` | Uncomment and set a path to override the URDF selected by the gripper setting. |
-| `can_channel`, `bustype` | CAN interface and backend. Options include `socketcan`, `gs_usb`, `pcan`, and `slcan`. Auto selection uses `socketcan` on Linux and `gs_usb` on macOS and Windows. |
+| `can_channel`, `bustype` | CAN interface and backend. Options include `socketcan`, `gs_usb`, `pcan`, `slcan`, and `cansub`. Auto selection uses `socketcan` on Linux and `gs_usb` on macOS and Windows. |
 | `motor_a_use_new_enable_protocol` | Set to `true` only if the MotorA firmware supports the `0x7FF` enable protocol. |
 | `control_freq_hz`, `min_freq_hz` | Control rate and low-frequency stop threshold in Hz. A sustained drop below the threshold triggers a protective stop. |
 | `gravity_comp_factor` | Gravity compensation scale. Use `0` for off and `1` for full compensation. |
@@ -264,6 +265,7 @@ The SDK automatically selects the CAN backend by platform:
 | **macOS** | **PEAK PCAN-USB** | `python -m pip install -e ".[pcan]"` + MacCAN PCBUSB runtime | `--bustype pcan --can PCAN_USBBUS1` |
 | **Windows** | Galaxea USB2CANFD adapter | `python -m pip install -e ".[gs_usb]"`; use Zadig/WinUSB only for an incompatible driver | (default) `gs_usb` |
 | **Windows** | **PEAK PCAN-USB** | `python -m pip install -e ".[pcan]"` + PEAK official driver | `--bustype pcan --can PCAN_USBBUS1` |
+| macOS / Windows / Linux | CSS Electronics CANsub | `python -m pip install -e ".[cansub]"`, no driver needed | `--bustype cansub --can aabbccdd-usb.local@1` |
 
 When `--bustype` is omitted, the OS default is used: Linux defaults to `socketcan`/`can0`; macOS/Windows default to `gs_usb`/device index `0`.
 

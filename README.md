@@ -58,6 +58,7 @@ A1Z 六轴机械臂的开源 Python SDK，面向机器人研发、算法验证�
 | macOS | `gs_usb` | Galaxea USB2CANFD 适配器 | 用户态 USB 后端；当前版本已通过 250 Hz 真机控制验证 |
 | Windows | `gs_usb` | Galaxea USB2CANFD 适配器+ libusb 兼容驱动 | 先使用现有驱动；无法打开时再考虑 Zadig/WinUSB |
 | macOS / Windows | `pcan` | PEAK PCAN-USB + 官方运行时 | 通过 `--bustype pcan` 显式选择 |
+| macOS / Windows / Linux | `cansub` | CSS Electronics CANsub（USB 或以太网） | 通过 `--bustype cansub` 显式选择 |
 
 ### 验证层级
 
@@ -172,7 +173,7 @@ with_gripper: false
 |---|---|
 | `gripper_max_torque` | G1Z 最大夹持力矩，单位 N·m。 |
 | `urdf_path` | 取消注释并填写路径，可覆盖按夹爪配置自动选用的 URDF。 |
-| `can_channel`, `bustype` | CAN 接口和后端。后端可选 `socketcan`、`gs_usb`、`pcan`、`slcan`。自动选择时，Linux 用 `socketcan`，macOS 和 Windows 用 `gs_usb`。 |
+| `can_channel`, `bustype` | CAN 接口和后端。后端可选 `socketcan`、`gs_usb`、`pcan`、`slcan`、`cansub`。自动选择时，Linux 用 `socketcan`，macOS 和 Windows 用 `gs_usb`。 |
 | `motor_a_use_new_enable_protocol` | 仅在确认 MotorA 固件支持 `0x7FF` 使能协议时设为 `true`。 |
 | `control_freq_hz`, `min_freq_hz` | 控制频率和低频保护阈值，单位 Hz。频率持续低于阈值会触发保护停机。 |
 | `gravity_comp_factor` | 重力补偿系数，`0` 关闭，`1` 全额补偿。 |
@@ -263,6 +264,7 @@ SDK 默认按平台自动选择 CAN 后端：
 | **macOS** | **PEAK PCAN-USB** | `python -m pip install -e ".[pcan]"` + MacCAN PCBUSB 运行时 | `--bustype pcan --can PCAN_USBBUS1` |
 | **Windows** | Galaxea USB2CANFD 适配器 | `python -m pip install -e ".[gs_usb]"`；仅驱动不兼容时使用 Zadig/WinUSB | （默认）`gs_usb` |
 | **Windows** | **PEAK PCAN-USB** | `python -m pip install -e ".[pcan]"` + PEAK 官方驱动 | `--bustype pcan --can PCAN_USBBUS1` |
+| macOS / Windows / Linux | CSS Electronics CANsub | `python -m pip install -e ".[cansub]"`，无需驱动 | `--bustype cansub --can aabbccdd-usb.local@1` |
 
 不传 `--bustype` 时使用 OS 默认值：Linux 默认 `socketcan`/`can0`，macOS/Windows 默认 `gs_usb`/设备序号 `0`。
 
